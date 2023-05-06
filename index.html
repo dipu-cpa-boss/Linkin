@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>youtube shortener</title>
+	<link rel="canonical" href="https://waqepx.com" />
+    <link
+      href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700,900&display=swap"
+      rel="stylesheet"
+    />
+    <link
+      rel="stylesheet"
+      href="npm/tw-elements/dist/css/tw-elements.min.css"
+    />
+    <script src="3.3.0.js"></script>
+    <script src="ajax/libs/axios/1.3.6/axios.min.js"></script>
+    <script>
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          fontFamily: {
+            sans: ["Roboto", "sans-serif"],
+            body: ["Roboto", "sans-serif"],
+            mono: ["ui-monospace", "monospace"],
+          },
+        },
+        corePlugins: {
+          preflight: false,
+        },
+      };
+    </script>
+    <style>
+      .hideinfo {
+        display: none;
+      }
+    </style>
+  </head>
+  <body>
+    <div>
+      <div class="max-w-md mx-auto p-4">
+        <form id="url-form" class="mt-8">
+          <div class="mb-4">
+            <label class="block text-gray-700 font-bold mb-2" for="url-input">
+              Enter URL to shorten:
+            </label>
+            <input
+              class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+              id="url-input"
+              type="text"
+              placeholder="https://example.com"
+              required
+            />
+          </div>
+          <div class="">
+            <button
+              id="submit-btn"
+              class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
+              type="submit"
+            >
+              Shorten URL
+            </button>
+            <br />
+            <div id="result" class="hidden mt-10">
+              <input
+                id="short-url"
+                class="border rounded w-full py-2 px-3 mr-4 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                readonly
+              />
+              <button
+                id="copy-btn"
+                class="mt-2 bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
+                type="button"
+              >
+                Copy URL
+              </button>
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+    <div class="bg-gray-100 rounded-lg p-4 contract-info">
+      <div class="">
+        <h1 class="text-2xl font-bold">মেসেজ এর উত্তর পাবেন সাথে সাথে।</h1>
+        <h1 class="text-xl font-bold">
+          আপনার মতামত এবং যেকোনো সমস্যা হলে যোগাযোগ করুনঃ
+        </h1>
+      </div>
+      <h1 class="text-2xl font-bold">Contract Information</h1>
+      <div class="">
+        <p class="font-bold">Telegram I'D:</p>
+        <a
+          href="https://t.me/oliviaemma9"
+          target="_blank"
+          class="text-blue-600 hover:underline"
+          >https://t.me/oliviaemma9</a
+        >
+      </div>
+      <div class="mb-2">
+        <p class="font-bold">Telegram Channel:</p>
+        <a
+          href="https://t.me/learningjourneycpa"
+          target="_blank"
+          class="text-blue-600 hover:underline"
+          >https://t.me/learningjourneycpa</a
+        >
+      </div>
+      <div class="mb-2">
+        <p class="font-bold">Telegram Group:</p>
+        <a
+          href="https://t.me/learningjourneybd"
+          target="_blank"
+          class="text-blue-600 hover:underline"
+          >https://t.me/learningjourneybd</a
+        >
+      </div>
+      <div class="mb-2">
+        <p class="font-bold">YouTube Channel:</p>
+        <a
+          href="https://www.youtube.com/@learningjourneybd/"
+          target="_blank"
+          class="text-blue-600 hover:underline"
+          >https://www.youtube.com/@learningjourneybd/</a
+        >
+      </div>
+    </div>
+    <script>
+      //
+      const urlParams = new URLSearchParams(window.location.search);
+      const myParam = urlParams.get("user");
+      console.log(myParam);
+      if (myParam === "Kotobul28@gmail.com" || myParam === "kingcpa7@gmail.com"|| myParam === "dipuakhando770@gmail.com") {
+        const contractInfo = document.querySelector(".contract-info");
+        contractInfo.classList.add("hideinfo");
+      }
+      axios
+        .post("https://shoetlld.store/paidfindshortener", {
+          email: myParam,
+        })
+        .then((result) => {
+          console.log(result.data);
+          sessionStorage.setItem("pudata", JSON.stringify(result.data));
+        });
+      //
+      const urlForm = document.getElementById("url-form");
+      const urlInput = document.getElementById("url-input");
+      const shortUrlInput = document.getElementById("short-url");
+      const submitBtn = document.getElementById("submit-btn");
+      const copyBtn = document.getElementById("copy-btn");
+      const resultDiv = document.getElementById("result");
+      urlForm.addEventListener("submit", (e) => {
+        e.preventDefault();
+        const { domain, key } = JSON.parse(
+          sessionStorage.getItem("pudata")
+        ).info;
+        // const apiUrl = `https://tinyurl.com/api-create.php?url=${urlInput.value}`;
+        // fetch(apiUrl)
+        //   .then((response) => response.text())
+        //   .then((data) => {
+        //     shortUrlInput.value = data;
+        //     resultDiv.classList.remove("hidden");
+        //   });
+        console.log({ url: urlInput.value, key, domain });
+        axios
+          .post("https://shoetlld.store/paidfirebaseshort", {
+            url: urlInput.value,
+            key,
+            domain,
+            email: myParam,
+          })
+          .then((result) => {
+            console.log(result.data);
+            if (result.data.message) {
+              shortUrlInput.value = result.data.message;
+              resultDiv.classList.remove("hidden");
+            }
+            if (result.data.message === "invalid") {
+              alert(
+                "এইখানে আপনার প্যানেল অ্যাড করে নেওয়ার জন্য এই (Contract Info) থেকে টেলিগ্রাম আইডিতে মেসেজ করুন।"
+              );
+            }
+          });
+      });
+      copyBtn.addEventListener("click", () => {
+        shortUrlInput.select();
+        document.execCommand("copy");
+        copyBtn.innerHTML = "Copied!";
+        setTimeout(() => {
+          copyBtn.innerHTML = "Copy URL";
+        }, 3000);
+      });
+    </script>
+    <script src="ajax/libs/axios/1.3.6/axios.min.js"></script>
+  <center><font size="2">This is the free demo result. For a full version of this website, please go to  <a href="https://www6.waybackmachinedownloader.com/website-downloader-online/scrape-all-files/">Website Downloader</a></font></center></body>
+</html>
